@@ -4,9 +4,9 @@ FROM node:alpine
 ## Install Helm
 
 # Note: Latest version of kubectl may be found at: # https://aur.archlinux.org/packages/kubectl-bin/ 
-ARG KUBE_LATEST_VERSION="v1.10.2" 
+ARG KUBE_LATEST_VERSION="v1.11.6" 
 # Note: Latest version of helm may be found at: # https://github.com/kubernetes/helm/releases 
-ARG HELM_VERSION="v2.10.0" 
+ARG HELM_VERSION="v2.12.2" 
 
 ENV HELM_HOME="/usr/local/bin/"
 ENV HELM_BINARY="/usr/local/bin/helm"
