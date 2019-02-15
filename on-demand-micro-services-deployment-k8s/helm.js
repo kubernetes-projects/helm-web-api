@@ -76,7 +76,7 @@ class Helm {
     Helm._validateNotEmpty(chartName, 'chartName');
     Helm._validateNotEmpty(releaseName, 'releaseName');
 
-    const upgradeCommand = `upgrade ${releaseName} ${chartName}`;
+    const upgradeCommand = `upgrade --recreate-pods ${releaseName} ${chartName}`;
     console.log(`upgrade command: ${upgradeCommand}`);
     return this._installOrUpgradeChart(upgradeCommand, deployOptions);
   }
