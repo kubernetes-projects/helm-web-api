@@ -12,6 +12,7 @@ const helmBinaryLocation = process.env.HELM_BINARY;
 // Run once init client only (because tiller is already installed, see above)
 console.log(`Initializing helm client. helm binary: ${helmBinaryLocation}`);
 exec(`${helmBinaryLocation} init --client-only`);
+exec(`${helmBinaryLocation} version --tls`);
 
 class Helm {
   async install(deployOptions) {
@@ -24,8 +25,8 @@ class Helm {
     Helm._validateNotEmpty(chartName, 'chartName');
 
     if (releaseName !== undefined && releaseName != null && releaseName !== '') {
-      console.log(`Installing specified release name: ${releaseName}`);
-      installCommand = `${installCommand} --name ${releaseName.toLowerCase()}`;
+      console.log(`Installing specified release name: ${releaseName} with TLS option`);
+      installCommand = `${installCommand} --name ${releaseName.toLowerCase()} --tls`;
     }
 
     console.log(`Install command: ${installCommand}`);
@@ -61,8 +62,8 @@ class Helm {
     const { releaseName } = delOptions;
     Helm._validateNotEmpty(releaseName, 'releaseName');
 
-    console.log(`deleting release: ${releaseName}`);
-    return this._executeHelm(`delete ${releaseName}`);
+    console.log(`deleting release: ${releaseName} with TLS option`);
+    return this._executeHelm(`delete ${releaseName} --tls`);
   }
 
   async upgrade(deployOptions) {
@@ -72,7 +73,7 @@ class Helm {
     Helm._validateNotEmpty(chartName, 'chartName');
     Helm._validateNotEmpty(releaseName, 'releaseName');
 
-    const upgradeCommand = `upgrade ${releaseName} ${chartName}`;
+    const upgradeCommand = `upgrade ${releaseName} ${chartName} --tls`;
     console.log(`upgrade command: ${upgradeCommand}`);
     return this._installOrUpgradeChart(upgradeCommand, deployOptions);
   }
