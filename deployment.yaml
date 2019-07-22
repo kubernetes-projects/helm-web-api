@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-web-api
+  labels:
+    app: helm-web-api
+spec:
+  selector:
+    matchLabels:
+      app: helm-web-api
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: helm-web-api
+        tier: web
+    spec:
+      containers:
+      - name: helm-web-api
+        image: dmilan/on-demand-micro-services-deployment-k8s
+        # comment the line imagePullPolicy if needed to pull from registry
+        ports:
+        - containerPort: 4000
