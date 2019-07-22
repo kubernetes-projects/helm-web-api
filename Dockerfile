@@ -20,6 +20,7 @@ RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 RUN helm plugin install https://github.com/Microsoft/helm-json-output --version master
 
+
 # Create app directory
 WORKDIR /usr/src
 
@@ -32,6 +33,6 @@ RUN npm install
 
 # Bundle app source
 COPY . .
-
+ENTRYPOINT ["docker-entrypoint.sh"]
 EXPOSE 4000
 CMD [ "npm", "start" ]
