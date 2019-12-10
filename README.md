@@ -59,6 +59,8 @@ The solution we propose consists of two parts, both as web servers:
     kubectl label service myingress-nginx-ingress-controller appingress=ingress
     ```
 
+Now to see in action, try wordpress.sh for installing wordpress through helm with the help of helm-web-api.
+
 Now you have a working API awaiting HTTP requests.
 
 ## Using the API
