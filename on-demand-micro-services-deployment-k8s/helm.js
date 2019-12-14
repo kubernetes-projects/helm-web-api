@@ -49,7 +49,7 @@ class Helm {
               releaseName: json.releaseName,
             };
           }
-          console.logs(svc);
+          console.log(svc);
           const errLog = `Install command returned unknown response: ${responseData.json}`;
           console.error(errLog);
           throw new Error(errLog);
