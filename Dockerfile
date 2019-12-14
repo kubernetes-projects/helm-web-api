@@ -18,7 +18,7 @@ RUN apk add --no-cache ca-certificates bash \
     && chmod +x /usr/local/bin/helm
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
-RUN helm plugin install https://github.com/Microsoft/helm-json-output --version master
+RUN helm plugin install https://github.com/dunefro/helm-json-output --version master
 
 # Create app directory
 WORKDIR /usr/src
