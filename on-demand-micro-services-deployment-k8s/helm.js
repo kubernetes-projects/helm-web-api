@@ -42,6 +42,8 @@ class Helm {
         } else {
           console.log('succesfully finished helm command');
           const json = JSON.parse(responseData.json);
+          console.log(responseData)
+          console.log(json)
           const svc = Helm._findFirstService(json);
           if (svc) {
             return {
