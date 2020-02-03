@@ -25,7 +25,7 @@ class Helm {
 
     if (releaseName !== undefined && releaseName != null && releaseName !== '') {
       console.log(`Installing specified release name: ${releaseName}`);
-      installCommand = `${installCommand} --generate-name ${releaseName.toLowerCase()}`;
+      installCommand = `${installCommand}  ${releaseName.toLowerCase()}`;
     }
 
     console.log(`Install command: ${installCommand}`);
