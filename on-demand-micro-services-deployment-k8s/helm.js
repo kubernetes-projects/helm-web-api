@@ -23,10 +23,10 @@ class Helm {
     // sanity
     Helm._validateNotEmpty(chartName, 'chartName');
 
-    if (releaseName !== undefined && releaseName != null && releaseName !== '') {
-      console.log(`Installing specified release name: ${releaseName}`);
-      installCommand = `${installCommand}  ${releaseName.toLowerCase()}`;
-    }
+//     if (releaseName !== undefined && releaseName != null && releaseName !== '') {
+//       console.log(`Installing specified release name: ${releaseName}`);
+//       installCommand = `${installCommand}  ${releaseName.toLowerCase()}`;
+//     }
     installCommand = `${installCommand}`;
     console.log(`Install command: ${installCommand}`);
     return this._installOrUpgradeChart(installCommand, deployOptions)
