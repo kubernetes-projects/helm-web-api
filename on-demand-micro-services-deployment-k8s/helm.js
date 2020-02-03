@@ -88,7 +88,8 @@ class Helm {
   }
 
   static _findFirstService(json) {
-    const service = json.resources.find(el => el.name.toLowerCase().includes('/service'));
+//     const service = json.resources.find(el => el.name.toLowerCase().includes('/service'));
+    const service = json.resources.find(el => el.name.toLowerCase())
     return (service && service.resources[0]) || null;
   }
 
