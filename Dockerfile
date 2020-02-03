@@ -14,8 +14,8 @@ RUN mkdir /usr/local/bin/plugins
 RUN apk add --no-cache ca-certificates bash \
     && wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
-    && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-    && chmod 700 get_helm.sh
+    && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
+    && chmod 700 get_helm.sh \
     && ./get_helm.sh
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
