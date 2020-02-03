@@ -11,14 +11,14 @@ const helmBinaryLocation = process.env.HELM_BINARY;
 
 // Run once init client only (because tiller is already installed, see above)
 console.log(`Initializing helm client. helm binary: ${helmBinaryLocation}`);
-exec(`${helmBinaryLocation} init --client-only`);
+// exec(`${helmBinaryLocation} init --client-only`);
 
 class Helm {
   async install(deployOptions) {
     console.log(`Installing new chart. deployOptions: ${JSON.stringify(deployOptions)}`);
     const chartName = deployOptions.chartName.toLowerCase();
     const { releaseName } = deployOptions;
-    let installCommand = `json install ${chartName}`;
+    let installCommand = `json install ${chartName} --generate-name`;
 
     // sanity
     Helm._validateNotEmpty(chartName, 'chartName');
@@ -27,7 +27,7 @@ class Helm {
       console.log(`Installing specified release name: ${releaseName}`);
       installCommand = `${installCommand}  ${releaseName.toLowerCase()}`;
     }
-
+    installCommand = `${installCommand}`;
     console.log(`Install command: ${installCommand}`);
     return this._installOrUpgradeChart(installCommand, deployOptions)
       .then((responseData) => {
