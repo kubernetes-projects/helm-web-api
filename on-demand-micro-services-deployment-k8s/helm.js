@@ -54,7 +54,7 @@ class Helm {
           console.log(svc);
           const errLog = `Install command returned unknown response: ${responseData.json}`;
           console.error(errLog);
-//           throw new Error(errLog);
+          throw new Error(errLog);
         }
       });
   }
@@ -88,8 +88,7 @@ class Helm {
   }
 
   static _findFirstService(json) {
-//     const service = json.resources.find(el => el.name.toLowerCase().includes('/service'));
-    const service = json.resources.find(el => el.name.toLowerCase());
+    const service = json.resources.find(el => el.name.toLowerCase().includes('/service'));
     return (service && service.resources[0]) || null;
   }
 
