@@ -23,8 +23,8 @@ app.post('/install',
       .then((installResponse) => {
         res.send({
           status: 'success',
-          serviceName: installResponse.serviceName,
-          releaseName: installResponse.releaseName,
+          // serviceName: installResponse.serviceName,
+          // releaseName: installResponse.releaseName,
         });
       }).catch((err) => {
         console.error(`Chart installation failed with exception :${err.toString()}`);
