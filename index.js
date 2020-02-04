@@ -23,6 +23,7 @@ app.post('/install',
       .then((installResponse) => {
         res.send({
           status: 'success',
+          responseData: installResponse 
           // serviceName: installResponse.serviceName,
           // releaseName: installResponse.releaseName,
         });
