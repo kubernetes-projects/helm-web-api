@@ -6,8 +6,8 @@ replicaCount: 1
 
 image:
   # uncomment and fill registry name
-  # registry: 
-  name: on-demand-micro-services-deployment-k8s
+  registry: harbor.sausmpc01.pcf.dell.com
+  name: platform_eng_public/helm-web-api
   tag: latest
   pullPolicy: Always
 
@@ -15,12 +15,12 @@ service:
   type: LoadBalancer
   port: 4000
 
-namespace: default
+namespace: helm-api
 
 # for the ingress functionallity - the ingress is the controller which exposes the newly deployed service
 # Refer to the docs for more details
 ingress:
-  ingressNamespace: default
+  ingressNamespace: helm-api
   minPort: 20000
   maxPort: 30000
   ingressLabel: ingress

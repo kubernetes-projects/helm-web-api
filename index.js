@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Helm = require('./on-demand-micro-services-deployment-k8s/helm');
-const PortsAllocator = require('./on-demand-micro-services-deployment-k8s/ports-allocator');
-const IngressManager = require('./on-demand-micro-services-deployment-k8s/ingress-manager');
+//const Kube = require('./on-demand-micro-services-deployment-k8s/kube');
+//const PortsAllocator = require('./on-demand-micro-services-deployment-k8s/ports-allocator');
+//const IngressManager = require('./on-demand-micro-services-deployment-k8s/ingress-manager');
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.post('/install',
         res.statusCode = 500;
         res.send({
           status: 'failed',
-          reason: 'Installation failed.',
+          reason: err.message,
         });
       });
   });
@@ -39,9 +40,9 @@ app.post('/install',
 /**
  * Deletes an already installed chart, identified by its release name
  */
-app.post('/delete',
+app.delete('/delete',
   async (req, res) => {
-    const delOptions = req.body;
+    const delOptions = req.query;
     const helm = new Helm();
     await helm.delete(delOptions)
       .then(() => {
@@ -61,7 +62,7 @@ app.post('/delete',
 /**
  * Upgrades an already installed chart, identified by its release name
  */
-app.post('/upgrade',
+app.put('/upgrade',
   async (req, res) => {
     const deployOptions = req.body;
     const helm = new Helm();
@@ -79,6 +80,49 @@ app.post('/upgrade',
         });
       });
   });
+/**
+ * Get release status by using release name
+ */
+app.get('/status',
+  async (req, res) => {
+    const options = req.query;
+
+    const helm = new Helm();
+    await helm.releaseStatus(options)
+      .then((relStatus) => {
+        res.send({
+          status: relStatus.status,
+          message: relStatus.message,
+        });
+      }).catch((err) => {
+        console.error(`Release Status check failed with exception :${err.toString()}`);
+        res.statusCode = 500;
+        res.send({
+          status: 'failed',
+          reason: err.message,
+        });
+      });
+  });
+
+  /**
+ * Get connection details by using release name
+ */
+app.get('/connectionDetails',
+async (req, res) => {
+  const options = req.query;
+  const helm = new Helm();
+  await helm.releaseConnectionDetails(options)
+    .then((connection) => {
+      res.send(connection);
+    }).catch((err) => {
+      console.error(`Error occured while getting connection details :${err.toString()}`);
+      res.statusCode = 500;
+      res.send({
+        status: 'failed',
+        reason: err.message,
+      });
+    });
+});
 
 // Ports allocator functionallity
 
