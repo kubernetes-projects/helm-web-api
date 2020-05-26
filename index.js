@@ -22,11 +22,7 @@ app.post('/install',
     const helm = new Helm();
     await helm.install(deployOptions)
       .then((installResponse) => {
-        res.send({
-          status: 'success',
-          serviceName: installResponse.serviceName,
-          releaseName: installResponse.releaseName,
-        });
+        res.send(installResponse);
       }).catch((err) => {
         console.error(`Chart installation failed with exception :${err.toString()}`);
         res.statusCode = 500;
@@ -54,7 +50,7 @@ app.delete('/delete',
         res.statusCode = 500;
         res.send({
           status: 'failed',
-          reason: 'Installation failed.',
+          reason: err.message,
         });
       });
   });
@@ -67,10 +63,8 @@ app.put('/upgrade',
     const deployOptions = req.body;
     const helm = new Helm();
     await helm.upgrade(deployOptions)
-      .then(() => {
-        res.send({
-          status: 'success',
-        });
+      .then((upgradeResponse) => {
+        res.send(upgradeResponse);
       }).catch((err) => {
         console.error(`Chart upgrade failed with exception :${err.toString()}`);
         res.statusCode = 500;

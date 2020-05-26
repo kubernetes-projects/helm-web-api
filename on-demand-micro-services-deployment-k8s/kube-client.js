@@ -1,12 +1,12 @@
 const { Client, KubeConfig } = require('kubernetes-client');
 const Request = require('kubernetes-client/backends/request');
-const kubeConfigPath = process.env.CONFIG_PATH;
+const Config = require('./kube-config');
 
 class KubeClient {
-    constructor(configPath) {
+    constructor(clusterConfig) {
     // setup an API client
     const kubeconfig = new KubeConfig();
-    kubeconfig.loadFromFile(`${configPath}`);
+    kubeconfig.loadFromString(JSON.stringify(clusterConfig));
     const backend = new Request({ kubeconfig })
     const client = new Client({ backend, version: '1.13' })
     //const client = new Client({ config: config.loadKubeconfig(`${kubeConfigPath}/${releaseName}`) });
@@ -162,6 +162,10 @@ class KubeClient {
             serviceMap.push(credentials);
         });
         return serviceMap;
+    }
+
+    async deleteNamespace(namespace) {
+        await this.client.api.v1.namespaces(namespace).delete();
     }
 }
 
