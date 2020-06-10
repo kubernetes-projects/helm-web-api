@@ -2,6 +2,7 @@
 const exec = util.promisify(require('child_process').exec);
 
 const helmBinaryLocation = process.env.HELM_BINARY;
+const namespace = 'syg-deployments';
 /** Since the installation is via a Chart, init was already been called, no need to init again.
  * We are leaving this as a comment, in case someone will need to execute it when
  * installed via yaml files
@@ -110,7 +111,7 @@ class Helm {
     async _executeHelm(command, values = '') {
         console.log(`command: ${command}`);
         console.log(`values: ${values}`);
-        const {stdout, stderr} = await exec(`${helmBinaryLocation} ${command}${values}`);
+        const {stdout, stderr} = await exec(`${helmBinaryLocation} ${command}${values} -n ${namespace}`);
         console.log('stdout:', stdout);
         console.log('stderr:', stderr);
         return {error: stderr, json: stdout};
