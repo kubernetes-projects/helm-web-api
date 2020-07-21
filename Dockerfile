@@ -4,9 +4,9 @@ FROM node:alpine
 ## Install Helm
 
 # Note: Latest version of kubectl may be found at: # https://aur.archlinux.org/packages/kubectl-bin/ 
-ARG KUBE_LATEST_VERSION="v1.10.2" 
+ARG KUBE_LATEST_VERSION="v1.16.2" 
 # Note: Latest version of helm may be found at: # https://github.com/kubernetes/helm/releases 
-ARG HELM_VERSION="v2.10.0" 
+ARG HELM_VERSION="v3.2.0" 
 
 ENV HELM_HOME="/usr/local/bin/"
 ENV HELM_BINARY="/usr/local/bin/helm"
@@ -28,10 +28,10 @@ WORKDIR /usr/src
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+RUN yarn install
 
 # Bundle app source
 COPY . .
 
 EXPOSE 4000
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
