@@ -34,6 +34,28 @@ app.get('/deployed',
     });
 
 /**
+ * Gets the list of services
+ */
+app.get('/services',
+    async(req, res) => {
+        const helm = new Helm();
+        await helm.getServices()
+            .then((deployedResponse) => {
+                res.send({
+                    status: 'success',
+                    services: deployedResponse
+                });
+            }).catch((err) => {
+                console.error(`Could not get services :${err.toString()}`);
+                res.statusCode = 500;
+                res.send({
+                    status: 'failed',
+                    reason: 'Get services failed.',
+                });
+            });
+    });
+
+/**
  * Installs the requested chart into the Kubernetes cluster
  */
 app.post('/install',

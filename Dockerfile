@@ -10,6 +10,8 @@ ARG HELM_VERSION="v3.2.0"
 
 ENV HELM_HOME="/usr/local/bin/"
 ENV HELM_BINARY="/usr/local/bin/helm"
+ENV KUBECTL_HOME="/usr/local/bin/"
+ENV KUBECTL_BINARY="/usr/local/bin/kubectl"
 RUN mkdir /usr/local/bin/plugins
 RUN apk add --no-cache ca-certificates bash \
     && wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
