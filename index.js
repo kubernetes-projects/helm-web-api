@@ -12,6 +12,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Helm functionallity
 
 /**
+ * Gets the list of deployed releases
+ */
+app.get('/deployed',
+    async(req, res) => {
+        const helm = new Helm();
+        await helm.getDeployed()
+            .then((deployedResponse) => {
+                res.send({
+                    status: 'success',
+                    services: {...deployedResponse }
+                });
+            }).catch((err) => {
+                console.error(`Could not get deployed releases :${err.toString()}`);
+                res.statusCode = 500;
+                res.send({
+                    status: 'failed',
+                    reason: 'Get deployed failed.',
+                });
+            });
+    });
+
+/**
  * Installs the requested chart into the Kubernetes cluster
  */
 app.post('/install',

@@ -18,10 +18,11 @@ RUN apk add --no-cache ca-certificates bash \
     && chmod +x /usr/local/bin/helm
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
-RUN helm plugin install https://github.com/Microsoft/helm-json-output --version master
+RUN helm plugin install https://github.com/Mangiang/helm-json-output --version master
 
 # Add basic repos and update
 RUN helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+RUN helm repo add mangiang https://mangiang.github.io/helm-chart/
 RUN helm repo update
 
 # Create app directory

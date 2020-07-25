@@ -18,7 +18,7 @@ class Helm {
         console.log(`Installing new chart. deployOptions: ${JSON.stringify(deployOptions)}`);
         const chartName = deployOptions.chartName.toLowerCase();
         const { releaseName } = deployOptions;
-        let installCommand = `install`;
+        let installCommand = `json install`;
 
         // sanity
         Helm._validateNotEmpty(chartName, 'chartName');
@@ -43,11 +43,9 @@ class Helm {
                 } else {
                     console.log('succesfully finished helm command');
                     const json = JSON.parse(responseData.json);
-                    const svc = Helm._findFirstService(json);
-                    if (svc) {
+                    if (json) {
                         return {
-                            serviceName: svc,
-                            releaseName: json.releaseName,
+                            serviceName: json.releaseName,
                         };
                     }
 
@@ -64,6 +62,11 @@ class Helm {
 
         console.log(`deleting release: ${releaseName}`);
         return this._executeHelm(`uninstall ${releaseName}`);
+    }
+
+    async getDeployed() {
+        console.log(`getting releases`);
+        return this._executeHelm(`list -o json`);
     }
 
     async upgrade(deployOptions) {
@@ -84,11 +87,6 @@ class Helm {
             console.error(errorMsg);
             throw new Error(errorMsg);
         }
-    }
-
-    static _findFirstService(json) {
-        const service = json.resources.find(el => el.name.toLowerCase().includes('/service'));
-        return (service && service.resources[0]) || null;
     }
 
     static _convertToBool(obj) {
