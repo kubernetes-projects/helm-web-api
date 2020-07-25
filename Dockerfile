@@ -37,6 +37,6 @@ RUN yarn install
 
 # Bundle app source
 COPY . .
-
 EXPOSE 4002
+ENV PORT 4002
 CMD [ "yarn", "start" ]
