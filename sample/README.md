@@ -21,3 +21,7 @@ node index.js
 localhost:4001/test
 
 A new RabbitMQ container should be installed on the cluster with an exposed port on the already existing ingress controller.
+
+
+
+helm install --name helm-api ./chart/on-demand-micro-services-deployment --values ./chart/on-demand-micro-services-deployment/values.yaml 

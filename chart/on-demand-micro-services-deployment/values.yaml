@@ -6,8 +6,8 @@ replicaCount: 1
 
 image:
   # uncomment and fill registry name
-  # registry: 
-  name: on-demand-micro-services-deployment-k8s
+  registry: nj93
+  name: helm-api-v2
   tag: latest
   pullPolicy: Always
 
@@ -27,6 +27,7 @@ ingress:
 
 # configuration for the rbac namespaces, service accounts, roles and binding names
 rbac:
+  create: true
   helmServiceAccount: helm
   helmRole: tiller-user
   tillerServiceAccount: tiller
