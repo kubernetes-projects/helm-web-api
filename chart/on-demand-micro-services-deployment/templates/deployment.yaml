@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "on-demand-micro-services-deployment-k8s.fullname" . }}
@@ -39,3 +39,23 @@ spec:
             value: {{ .Values.ingress.ingressLabel }}
           - name: TILLER_SERVICE_ACCOUNT
             value: {{ .Values.rbac.tillerServiceAccount }}
+          volumeMounts:
+          - mountPath: "/data/config"
+            name: kube-config
+      volumes:
+      - name: kube-config
+        persistentVolumeClaim:
+          claimName: helm-api-pvc
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: helm-api-pvc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: ci-storage-vmfs04
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
