@@ -30,7 +30,7 @@ describe('helm', function () {
         helm._executeHelm = async function(command, values = '') {
             return command;
         }
-        let cmd = 'delete ' + data.releaseName;
+        let cmd = 'delete --purge ' + data.releaseName;
         //act
         var res = await helm.delete(data);
         console.log(cmd)
@@ -46,7 +46,7 @@ describe('helm', function () {
         helm._executeHelm = async function(command, values = '') {
             return command;
         }
-        let upgradeCommand = 'upgrade ' + data.releaseName + ' ' + data.chartName;
+        let upgradeCommand = 'json upgrade --recreate-pods ' + data.releaseName + ' ' + data.chartName;
         //act
         var res = await helm.upgrade(data);
         assert.equal(res, upgradeCommand);
