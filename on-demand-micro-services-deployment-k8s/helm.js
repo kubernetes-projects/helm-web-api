@@ -1,5 +1,6 @@
 ﻿const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+var shellParser = require('node-shell-parser');
 
 const helmBinaryLocation = process.env.HELM_BINARY;
 /** Since the installation is via a Chart, init was already been called, no need to init again.
@@ -63,6 +64,17 @@ class Helm {
 
     console.log(`deleting release: ${releaseName}`);
     return this._executeHelm(`delete ${releaseName}`);
+  }
+
+  async list() {
+    console.log(`listing releases:`);
+    const { stdout, stderr } = await exec(`${helmBinaryLocation} list`);
+    console.log('stdout:', stdout);
+    console.log('stderr:', stderr);
+    const listing = shellParser(stdout, '  ')
+    console.log(listing)
+    return { error: stderr, json: listing };
+    // return this._executeHelm(`list`);
   }
 
   async upgrade(deployOptions) {

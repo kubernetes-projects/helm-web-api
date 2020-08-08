@@ -59,6 +59,29 @@ app.post('/delete',
   });
 
 /**
+ * Deletes an already installed chart, identified by its release name
+ */
+app.get('/list',
+  async (req, res) => {
+    const helm = new Helm();
+    await helm.list()
+      .then((response) => {
+        console.log(`res:  ${res}`)
+        res.send({
+          status: 'success',
+          list: response.json,
+        });
+      }).catch((err) => {
+        console.error(`List failed with exception :${err.toString()}`);
+        res.statusCode = 500;
+        res.send({
+          status: 'failed',
+          reason: 'List failed.',
+        });
+      });
+  });
+
+/**
  * Upgrades an already installed chart, identified by its release name
  */
 app.post('/upgrade',
