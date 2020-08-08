@@ -1,22 +1,22 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "on-demand-micro-services-deployment-k8s.fullname" . }}
+  name: {{ template "helm-web-api.fullname" . }}
   labels:
-    app: {{ template "on-demand-micro-services-deployment-k8s.name" . }}
-    chart: {{ template "on-demand-micro-services-deployment-k8s.chart" . }}
+    app: {{ template "helm-web-api.name" . }}
+    chart: {{ template "helm-web-api.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "on-demand-micro-services-deployment-k8s.name" . }}
+      app: {{ template "helm-web-api.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "on-demand-micro-services-deployment-k8s.name" . }}
+        app: {{ template "helm-web-api.name" . }}
         release: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ .Values.rbac.helmServiceAccount }}
