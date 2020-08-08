@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-one
+spec:
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  hostPath:
+    path: /mysql/one
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-two
+spec:
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  hostPath:
+    path: /mysql/two

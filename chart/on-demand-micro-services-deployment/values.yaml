@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   # uncomment and fill registry name
-  # registry: 
+  registry: dunefro
   name: on-demand-micro-services-deployment-k8s
   tag: latest
   pullPolicy: Always

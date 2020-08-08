@@ -4,9 +4,9 @@ FROM node:alpine
 ## Install Helm
 
 # Note: Latest version of kubectl may be found at: # https://aur.archlinux.org/packages/kubectl-bin/ 
-ARG KUBE_LATEST_VERSION="v1.10.2" 
+ARG KUBE_LATEST_VERSION="v1.17.2" 
 # Note: Latest version of helm may be found at: # https://github.com/kubernetes/helm/releases 
-ARG HELM_VERSION="v2.10.0" 
+ARG HELM_VERSION="v3.0.3" 
 
 ENV HELM_HOME="/usr/local/bin/"
 ENV HELM_BINARY="/usr/local/bin/helm"
@@ -14,11 +14,14 @@ RUN mkdir /usr/local/bin/plugins
 RUN apk add --no-cache ca-certificates bash \
     && wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
-    && wget -q http://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
-    && chmod +x /usr/local/bin/helm
+    && apk add curl \
+    && apk add openssl \
+    && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
+    && chmod 700 get_helm.sh \
+    && ./get_helm.sh
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
-RUN helm plugin install https://github.com/Microsoft/helm-json-output --version master
+RUN helm plugin install https://github.com/dunefro/helm-json-output --version master
 
 # Create app directory
 WORKDIR /usr/src
